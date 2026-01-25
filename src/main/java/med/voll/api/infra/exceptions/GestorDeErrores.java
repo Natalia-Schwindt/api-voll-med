@@ -23,7 +23,6 @@ public class GestorDeErrores {
         return ResponseEntity.badRequest().body(errores);
     }
 
-    // ¡AÑADE ESTO! Es vital para tus validadores de Médico/Paciente
     @ExceptionHandler(ValidacionException.class)
     public ResponseEntity gestionarErrorDeValidacion(ValidacionException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());

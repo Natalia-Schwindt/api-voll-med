@@ -1,5 +1,6 @@
 package med.voll.api.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import med.voll.api.domain.paciente.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/pacientes")
+@SecurityRequirement(name = "bearer-key")
 public class PacienteController {
 
     @Autowired
@@ -26,7 +28,6 @@ public class PacienteController {
 
         var uri = uriComponentsBuilder.path("/pacientes/{id}").buildAndExpand(paciente.getId()).toUri();
 
-        // Tu código maneja correctamente el retorno 201 Created
         return ResponseEntity.created(uri).body(new DatosDetallePaciente(paciente));
     }
 
@@ -42,7 +43,6 @@ public class PacienteController {
         var paciente = repository.getReferenceById(datos.id());
         paciente.actualizarInformaciones(datos);
 
-        // El código descargado era 'void', pero es mejor devolver el objeto actualizado como haces tú
         return ResponseEntity.ok(new DatosDetallePaciente(paciente));
     }
 
@@ -56,7 +56,7 @@ public class PacienteController {
     }
 
     @GetMapping("/{id}")
-    @Transactional(readOnly = true) // Agregado como buena práctica para lecturas
+    @Transactional(readOnly = true)
     public ResponseEntity detallar(@PathVariable Long id) {
         var paciente = repository.getReferenceById(id);
         return ResponseEntity.ok(new DatosDetallePaciente(paciente));

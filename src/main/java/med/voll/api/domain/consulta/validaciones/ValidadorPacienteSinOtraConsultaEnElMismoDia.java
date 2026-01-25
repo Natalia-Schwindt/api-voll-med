@@ -13,7 +13,6 @@ public class ValidadorPacienteSinOtraConsultaEnElMismoDia implements ValidadorDe
     private ConsultaRepository repository;
 
     public void validar(DatosReservaConsulta datos) {
-        // Definimos el rango del horario de atención de la clínica para ese día
         var primerHorario = datos.fecha().withHour(7).withMinute(0).withSecond(0);
         var ultimoHorario = datos.fecha().withHour(18).withMinute(59).withSecond(59);
 

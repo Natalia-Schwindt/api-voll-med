@@ -24,16 +24,12 @@ public class AutenticacionController {
 
     @PostMapping
     public ResponseEntity iniciarSesion(@RequestBody @Valid DatosAutenticacion datos) {
-        // Mantenemos datos.login() y datos.contrasena() como en tu record original
         Authentication authenticationToken = new UsernamePasswordAuthenticationToken(datos.login(), datos.contrasena());
 
-        // El manager autentica las credenciales
         var autenticacion = manager.authenticate(authenticationToken);
 
-        // Generamos el token usando el principal (el usuario) ya autenticado
         var tokenJWT = tokenService.generarToken((Usuario) autenticacion.getPrincipal());
 
-        // Retornamos el DTO con el nombre que tú ya tenías: DatosTokenJWT
         return ResponseEntity.ok(new DatosTokenJWT(tokenJWT));
     }
 
